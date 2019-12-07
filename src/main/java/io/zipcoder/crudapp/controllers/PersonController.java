@@ -37,12 +37,14 @@ public class PersonController{
 
     //TODO fix
     @PutMapping("/people/{id}")
-    public Person updatePerson(@RequestBody Person p){
-       Integer personID =  p.getId();
-        if (personRepo.exists(personID)){
-            p.setFirstName(p.getFirstName());
-            p.setLastName(p.getLastName());
-            personRepo.save(p);
+    public Person updatePerson(@PathVariable Integer id,@RequestBody Person p){
+
+        if (personRepo.exists(id)){
+            Person setItEqualToSomething = personRepo.findOne(id);
+            setItEqualToSomething.setFirstName(p.getFirstName());
+            setItEqualToSomething.setLastName(p.getLastName());
+            personRepo.save(setItEqualToSomething);
+            p = setItEqualToSomething;
         }
         return p;
     }
